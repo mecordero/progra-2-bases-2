@@ -47,10 +47,13 @@ CREATE OR REPLACE TYPE nt_office_skills IS
     TABLE OF office_skills_type;
 /
 
-CREATE OR REPLACE TYPE admin_type UNDER staff_type (
+create or replace TYPE admin_type UNDER staff_type (
     admin_title     VARCHAR2(50),
     comp_skills     nt_comp_skills,
-    office_skills   nt_office_skills
+    office_skills   nt_office_skills,
+    constructor function admin_type(
+        admin_title varchar)
+        return self as result
 ) FINAL;
 /
 
