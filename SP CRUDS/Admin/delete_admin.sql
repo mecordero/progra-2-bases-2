@@ -1,0 +1,11 @@
+CREATE OR REPLACE PROCEDURE DELETE_ADMIN 
+(
+    p_pers_id           in REAL
+)
+AS 
+BEGIN
+
+  DELETE FROM ADMIN
+  WHERE pers_id = p_pers_id;
+  
+END DELETE_ADMIN;

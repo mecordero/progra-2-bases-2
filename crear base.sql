@@ -107,7 +107,6 @@ DROP type TUTOR_TYPE force;
 DROP type UNITLIST_TYPE force;
 
 
-
 CREATE OR REPLACE TYPE person_type AS OBJECT (
     pers_id           REAL,
     pers_surname      VARCHAR2(25),
@@ -118,6 +117,32 @@ CREATE OR REPLACE TYPE person_type AS OBJECT (
     pers_postcode     REAL,
     campus_location   VARCHAR2(50)
 ) NOT FINAL NOT INSTANTIABLE;
+/
+
+
+CREATE OR REPLACE TYPE faculty_type AS OBJECT (
+    fac_id           REAL,
+    fac_name         VARCHAR2(50),
+    fac_dean         REF admin_type,
+    department       nt_department,
+    school           nt_school,
+    researchcenter   nt_research_center,
+    constructor function faculty_type(
+        fac_id           REAL,
+        fac_name         VARCHAR2,
+        fac_dean         REF admin_type)
+        return self as result
+) NOT FINAL;
+/
+
+create or replace type Building_type as object(
+    Bld_ID VARCHAR2(25),
+    Bld_Name varchar2(50),
+    Bld_Location varchar2(3),
+    Bls_Level real,
+    Campus_Location varchar(50),
+    Fac_ID    REF  faculty_type
+)
 /
 
 CREATE OR REPLACE TYPE staff_type UNDER person_type (
@@ -150,7 +175,18 @@ create or replace TYPE admin_type UNDER staff_type (
     comp_skills     nt_comp_skills,
     office_skills   nt_office_skills,
     constructor function admin_type(
-        admin_title varchar)
+        pers_id           in REAL,
+        pers_surname      in VARCHAR2,
+        pers_fname        in VARCHAR2,
+        pers_title        in VARCHAR2,
+        pers_address      in VARCHAR2,
+        pers_phone        in REAL,
+        pers_postcode     in REAL,
+        campus_location   in VARCHAR2,
+        bld_id      in REF building_type,
+        off_no      in VARCHAR2,
+        stafftype   in VARCHAR2,
+        admin_title     VARCHAR2)
         return self as result
 ) FINAL;
 /
@@ -226,25 +262,6 @@ CREATE OR REPLACE TYPE nt_research_center IS
     TABLE OF research_center_type;
 /
 
-CREATE OR REPLACE TYPE faculty_type AS OBJECT (
-    fac_id           REAL,
-    fac_name         VARCHAR2(50),
-    fac_dean         REF admin_type,
-    department       nt_department,
-    school           nt_school,
-    researchcenter   nt_research_center
-) NOT FINAL;
-/
-
-create or replace type Building_type as object(
-    Bld_ID VARCHAR2(25),
-    Bld_Name varchar2(50),
-    Bld_Location varchar2(3),
-    Bls_Level real,
-    Campus_Location varchar(50),
-    Fac_ID    REF  faculty_type
-)
-/
 CREATE OR REPLACE TYPE seniorlecturer_type UNDER lecturer_type (
     no_phd       REAL,
     no_master    REAL,
@@ -268,7 +285,21 @@ CREATE OR REPLACE TYPE nt_tech_skills IS
 
 CREATE OR REPLACE TYPE technician_type UNDER staff_type (
     tech_title    VARCHAR2(50),
-    tech_skills   nt_tech_skills
+    tech_skills   nt_tech_skills,
+    constructor function technician_type(
+        pers_id           REAL,
+        pers_surname      VARCHAR2,
+        pers_fname        VARCHAR2,
+        pers_title        VARCHAR2,
+        pers_address      VARCHAR2,
+        pers_phone        REAL,
+        pers_postcode     REAL,
+        campus_location   VARCHAR2,
+        bld_id            REF building_type,
+        off_no            VARCHAR2,
+        stafftype         VARCHAR2,
+        tech_title        varchar2)
+        return self as result
 ) NOT FINAL;
 /
 
@@ -354,9 +385,7 @@ CREATE OR REPLACE TYPE subject_type AS OBJECT (
 	subj_name		VARCHAR2(50),
 	subj_credit		REAL,
 	subj_prereq		REF subject_type,
-	pers_id			REAL
-
-
+	pers_id			REF lecturer_type
 );
 /
 CREATE TABLE subject OF subject_type(subj_id primary key);
@@ -366,7 +395,7 @@ CREATE TABLE subject OF subject_type(subj_id primary key);
 -------------------------------
 -------------------------------
 CREATE CLUSTER off_class_lab_cluster
-   				(bld_id VARCHAR2(5))
+   				(bld_id REF building_type)
 SIZE 512;
 /
 CREATE INDEX idx_off_class_lab_cluster ON CLUSTER off_class_lab_cluster;
