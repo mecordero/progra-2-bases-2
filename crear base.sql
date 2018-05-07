@@ -10,6 +10,104 @@ DROP TABLE student CASCADE CONSTRAINTS;
 
 DROP TABLE technician CASCADE CONSTRAINTS;
 
+DROP TABLE building CASCADE CONSTRAINTS;
+
+DROP TABLE campus CASCADE CONSTRAINTS;
+
+DROP TABLE class CASCADE CONSTRAINTS;
+
+DROP TABLE degree CASCADE CONSTRAINTS;
+
+DROP TABLE enrolls_in CASCADE CONSTRAINTS;
+
+DROP TABLE tutor CASCADE CONSTRAINTS;
+
+DROP TABLE subject CASCADE CONSTRAINTS;
+
+DROP TABLE office CASCADE CONSTRAINTS;
+
+DROP TABLE lab CASCADE CONSTRAINTS;
+
+DROP TABLE takes CASCADE CONSTRAINTS;
+
+DROP TABLE EQUIPMENT CASCADE CONSTRAINTS;--creo que esta no es necesaria
+
+DROP type admin_type force;
+
+DROP type ASSOCIATELECTURER_TYPE force;
+
+DROP type BUILDING_TYPE force;
+
+DROP type CAMPUS_TYPE force;
+
+DROP type CLASS_TYPE force;
+
+DROP type COMP_SKILLS_TYPE force;
+
+DROP type DEGREE_TYPE force;
+
+DROP type DEPARTMENT_TYPE force;
+
+DROP type ENROLLS_IN_TYPE force;
+
+DROP type EQUIPMENT_TYPE force;
+
+DROP type FACULTY_TYPE force;
+
+DROP type LAB_TYPE force;
+
+DROP type LECTURER_TYPE force;
+
+DROP type LECTURERLIST_TYPE force;
+
+DROP type NT_COMP_SKILLS force;
+
+DROP type NT_DEPARTMENT force;
+
+DROP type NT_EQUIPMENT force;
+
+DROP type NT_LECTURERLIST force;
+
+DROP type NT_OFFICE_SKILLS force;
+
+DROP type NT_RESEARCH_CENTER force;
+
+DROP type NT_SCHOOL force;
+
+DROP type NT_TECH_SKILLS force;
+
+DROP type NT_UNITLIST force;
+
+DROP type OFFICE_SKILLS_TYPE force;
+
+DROP type OFFICE_TYPE force;
+
+DROP type PERSON_TYPE force;
+
+DROP type RESEARCH_CENTER_TYPE force;
+
+DROP type SCHOOL_TYPE force;
+
+DROP type SENIORLECTURER_TYPE force;
+
+DROP type STAFF_TYPE force;
+
+DROP type STUDENT_TYPE force;
+
+DROP type SUBJECT_TYPE force;
+
+DROP type TAKES_TYPE force;
+
+DROP type TECH_SKILLS_TYPE force;
+
+DROP type TECHNICIAN_TYPE force;
+
+DROP type TUTOR_TYPE force;
+
+DROP type UNITLIST_TYPE force;
+
+
+
 CREATE OR REPLACE TYPE person_type AS OBJECT (
     pers_id           REAL,
     pers_surname      VARCHAR2(25),
@@ -23,7 +121,7 @@ CREATE OR REPLACE TYPE person_type AS OBJECT (
 /
 
 CREATE OR REPLACE TYPE staff_type UNDER person_type (
-    bld_id      VARCHAR2(25),
+    bld_id      REF building_type,
     off_no      VARCHAR2(10),
     stafftype   VARCHAR2(20)
 ) NOT FINAL NOT INSTANTIABLE;
@@ -138,6 +236,15 @@ CREATE OR REPLACE TYPE faculty_type AS OBJECT (
 ) NOT FINAL;
 /
 
+create or replace type Building_type as object(
+    Bld_ID VARCHAR2(25),
+    Bld_Name varchar2(50),
+    Bld_Location varchar2(3),
+    Bls_Level real,
+    Campus_Location varchar(50),
+    Fac_ID    REF  faculty_type
+)
+/
 CREATE OR REPLACE TYPE seniorlecturer_type UNDER lecturer_type (
     no_phd       REAL,
     no_master    REAL,
@@ -216,16 +323,6 @@ create or replace type Campus_type as object (
 )
 /
 
-create or replace type Building_type as object(
-    Bld_ID VARCHAR2(25),
-    Bld_Name varchar2(50),
-    Bld_Location varchar2(3),
-    Bls_Level real,
-    Campus_Location varchar(50),
-    Fac_ID    REF  faculty_type
-)
-/
-
 CREATE TABLE degree OF degree_type(deg_id primary key);
 CREATE TABLE campus OF campus_type(campus_id primary key);
 CREATE TABLE building OF building_type(bld_id primary key);
@@ -276,7 +373,7 @@ CREATE INDEX idx_off_class_lab_cluster ON CLUSTER off_class_lab_cluster;
 
 /
 CREATE OR REPLACE TYPE office_type AS OBJECT (
-	bld_id 		VARCHAR2(5),
+	bld_id 		REF building_type,
 	off_no 		VARCHAR2(10),
 	off_phone 	REAL
 );
@@ -287,7 +384,7 @@ CREATE TABLE office OF office_type
 
 /
 CREATE OR REPLACE TYPE class_type AS OBJECT (
-	bld_id	 		VARCHAR2(5),
+	bld_id	 		REF building_type,
 	class_no 		VARCHAR2(10),
 	class_capacity 	REAL
 );
@@ -306,7 +403,7 @@ AS TABLE OF equipment_type;
 
 /
 CREATE OR REPLACE TYPE lab_type AS OBJECT (
-	bld_id 			VARCHAR2(5),
+	bld_id 			REF building_type,
 	lab_no	 		VARCHAR2(10),
 	lab_capacity 	REAL,
 	lab_equip		nt_equipment
