@@ -78,11 +78,16 @@ CREATE OR REPLACE TYPE nt_lecturerlist IS
     TABLE OF lecturerlist_type;
 /
 
-CREATE OR REPLACE TYPE department_type AS OBJECT (
+create or replace TYPE department_type AS OBJECT (
     dept_id      VARCHAR2(5),
     dept_name    VARCHAR2(50),
     dept_head    REF admin_type,
-    dept_profs   nt_lecturerlist
+    dept_profs   nt_lecturerlist,
+    constructor function department_type(
+        dept_id varchar2,
+        dept_name varchar2,
+        dept_head ref admin_type)
+        return self as result
 ) NOT FINAL;
 /
 
@@ -212,7 +217,7 @@ create or replace type Campus_type as object (
 /
 
 create or replace type Building_type as object(
-    Bld_ID real,
+    Bld_ID VARCHAR2(25),
     Bld_Name varchar2(50),
     Bld_Location varchar2(3),
     Bls_Level real,
