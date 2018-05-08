@@ -5,7 +5,7 @@ create or replace PROCEDURE insert_campus
     Campus_Address varchar2,
     Campus_Phone real,
     Campus_Fax real,
-    Campus_Head  REF staff_type,
+    staff_id    real,
     result            out real --1 bien 2 mal
 )
 AS 
@@ -19,7 +19,7 @@ BEGIN
         Campus_Address,
         Campus_Phone,
         Campus_Fax,
-        Campus_Head));
+        (SELECT REF(s) FROM staff s WHERE s.pers_id = staff_id)));
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         result := 2;
