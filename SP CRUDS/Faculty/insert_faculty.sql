@@ -2,7 +2,6 @@ create or replace PROCEDURE insert_faculty
 (
     fac_id           REAL,
     fac_name         VARCHAR2,
-    fac_dean         REF admin_type,
     result           out real --1 bien 2 mal
 )
 AS 
@@ -12,8 +11,7 @@ BEGIN
   insert into FACULTY
   VALUES (FACULTY_TYPE(
         fac_id,
-        fac_name,
-        fac_dean));
+        fac_name));
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         result := 2;
