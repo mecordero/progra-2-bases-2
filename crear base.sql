@@ -32,6 +32,10 @@ DROP TABLE takes CASCADE CONSTRAINTS;
 
 DROP TABLE EQUIPMENT CASCADE CONSTRAINTS;--creo que esta no es necesaria
 
+DROP TABLE dean_of_fac
+
+DROP type dean_of_fac_type
+
 DROP type admin_type force;
 
 DROP type ASSOCIATELECTURER_TYPE force;
