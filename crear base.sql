@@ -123,16 +123,23 @@ CREATE OR REPLACE TYPE person_type AS OBJECT (
 CREATE OR REPLACE TYPE faculty_type AS OBJECT (
     fac_id           REAL,
     fac_name         VARCHAR2(50),
-    fac_dean         REF admin_type,
     department       nt_department,
     school           nt_school,
     researchcenter   nt_research_center,
     constructor function faculty_type(
         fac_id           REAL,
-        fac_name         VARCHAR2,
-        fac_dean         REF admin_type)
+        fac_name         VARCHAR2)
         return self as result
 ) NOT FINAL;
+/
+
+create or replace type dean_of_fac_type as object(
+    Fac_ID           REF  faculty_type,
+    fac_dean         REF admin_type
+)
+/
+
+CREATE TABLE dean_of_fac OF dean_of_fac_type;
 /
 
 create or replace type Building_type as object(
