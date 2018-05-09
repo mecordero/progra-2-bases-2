@@ -5,7 +5,7 @@ create or replace PROCEDURE insert_building
     Bld_Location varchar2,
     Bls_Level real,
     Campus_Location varchar,
-    Fac_ID    REF  faculty_type,
+    Fac_ID    real,
     result            out real --1 bien 2 mal
 )
 AS 
@@ -18,8 +18,8 @@ BEGIN
         Bld_Name,
         Bld_Location,
         Bls_Level,
-        Campus_Location,
-        Fac_ID));
+        (SELECT REF(c) FROM campus c WHERE c.Campus_Location = Campus_Location),
+        (SELECT REF(f) FROM faculty f WHERE f.Fac_ID= Fac_ID)));
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         result := 2;
