@@ -76,7 +76,7 @@ CREATE OR REPLACE TYPE admin_typ UNDER staff_typ (
 ) NOT FINAL;
 /
 
-CREATE OR REPLACE TYPE lecturer_typ AS OBJECT (
+CREATE OR REPLACE TYPE lecturer_typ UNDER staff_typ(
     area        VARCHAR2(50),
     lect_type   VARCHAR2(50)
 ) NOT FINAL NOT INSTANTIABLE;

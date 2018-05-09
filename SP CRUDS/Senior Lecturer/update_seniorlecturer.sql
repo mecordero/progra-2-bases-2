@@ -38,7 +38,7 @@ BEGIN
         sl.no_honours
 
   FROM SENIORLECTURER sl
-  WHERE sl.pers_id = pers_id
+  WHERE sl.pers_id = pers_id;
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         result := 2;

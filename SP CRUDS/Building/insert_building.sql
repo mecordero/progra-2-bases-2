@@ -13,7 +13,7 @@ BEGIN
     result := 1;
   --inserta el objeto en la tabla
   insert into BUILDING
-  VALUES (BUILDING_TYPE(
+  VALUES (BUILDING_TYP(
         Bld_ID,
         Bld_Name,
         Bld_Location,
