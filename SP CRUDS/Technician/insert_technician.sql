@@ -8,7 +8,7 @@ CREATE OR REPLACE PROCEDURE insert_technician
     pers_phone        in REAL,
     pers_postcode     in REAL,
     campus_location   in VARCHAR2,
-    bld_id            in REF building_type,
+    bld_id            in VARCHAR2,
     off_no            in VARCHAR2,
     stafftype         in VARCHAR2,
     
@@ -28,7 +28,7 @@ BEGIN
         pers_phone,
         pers_postcode,
         campus_location,
-        bld_id,
+        (SELECT REF(o) FROM office o WHERE o.bld_id = bld_id),
         off_no,
         stafftype,
         area,
