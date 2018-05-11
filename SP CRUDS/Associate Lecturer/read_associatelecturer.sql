@@ -1,17 +1,14 @@
 CREATE OR REPLACE PROCEDURE read_associatelecturer 
 (
     p_pers_id         in REAL,
-    result            out real --1 bien 2 mal
+    pname             OUT ASSOCIATELECTURER.pers_fname%TYPE
 )
 AS 
 BEGIN  
-    result := 1;
-  --inserta el objeto en la tabla
-  SELECT *
+
+  SELECT pers_fname INTO pname
   FROM associatelecturer
-  WHERE pers_id = p_pers_id
-  EXCEPTION
-    WHEN DUP_VAL_ON_INDEX THEN
-        result := 2;
+  WHERE pers_id = p_pers_id;
+
     
 END read_associatelecturer;

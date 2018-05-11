@@ -3,23 +3,23 @@ CREATE OR REPLACE PROCEDURE insert_subject
     subj_id			VARCHAR2,
 	subj_name		VARCHAR2,
 	subj_credit		REAL,
-	subj_prereq		REF subject_type,
-	pers_id			REF lecturer_type,
-    result            out real --1 bien 2 mal
+	subj_prereq		REF subject_typ,
+	pers_id			REF lecturer_typ,
+  subj_description VARCHAR2
 )
 AS 
 BEGIN  
-    result := 1;
-  --inserta el objeto en la tabla
+
   insert into SUBJECT
-  VALUES (subject_type(
+  VALUES (subject_typ(
         subj_id,
         subj_name,
         subj_credit,
-        subj_prereq,
-        pers_id));
-  EXCEPTION
-    WHEN DUP_VAL_ON_INDEX THEN
-        result := 2;
-    
+        (SELECT REF(s) FROM subject s WHERE s.subj_id = subj_prereq),
+        (SELECT REF(l) FROM lecturer l WHERE l.pers_id = pers_id),
+        subj_description));
+
 END insert_subject;
+
+
+

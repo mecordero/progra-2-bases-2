@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE update_seniorlecturer 
+CREATE OR REPLACE PROCEDURE update_SENIORLECTURER 
 (
     pers_id           in REAL,
     pers_surname      in VARCHAR2,
@@ -7,7 +7,6 @@ CREATE OR REPLACE PROCEDURE update_seniorlecturer
     pers_address      in VARCHAR2,
     pers_phone        in REAL,
     pers_postcode     in REAL,
-    campus_location   in VARCHAR2,
     stafftype         in VARCHAR2,
     area              in VARCHAR2,
     lect_type         in VARCHAR2,
@@ -22,25 +21,21 @@ BEGIN
   --inserta el objeto en la tabla
   UPDATE SENIORLECTURER
   SET 
-        sl.pers_id,
-        sl.pers_surname,
-        sl.pers_fname,
-        sl.pers_title,
-        pesl.rs_address,
-        sl.pers_phone,
-        sl.pers_postcode,
-        sl.campus_location,
-        sl.stafftype,
-        sl.area,
-        sl.lect_type,
-        sl.no_phd,
-        sl.no_master,
-        sl.no_honours
+        pers_id = pers_id,
+        pers_surname = pers_surname,
+        pers_fname = pers_fname,
+        pers_title = pers_title,
+        pers_address = pers_address,
+        pers_phone = pers_phone,
+        pers_postcode = pers_postcode,
+        staff_type = stafftype,
+        area = area,
+        lect_type = lect_type,
+        no_honours = no_honours
 
-  FROM SENIORLECTURER sl
-  WHERE sl.pers_id = pers_id;
+  WHERE pers_id = pers_id;
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         result := 2;
 COMMIT;
-END update_seniorlecturer;
+END update_SENIORLECTURER;

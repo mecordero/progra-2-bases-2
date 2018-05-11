@@ -11,15 +11,16 @@ CREATE OR REPLACE PROCEDURE insert_technician
     bld_id            in VARCHAR2,
     off_no            in VARCHAR2,
     stafftype         in VARCHAR2,
-    
+    tech_tittle       in VARCHAR2,
+    tech_skills       in tech_skills_nt,
     result            out real --1 bien 2 mal
 )
 AS 
 BEGIN  
     result := 1;
   --inserta el objeto en la tabla
-  insert into ASSOCIATELECTURER
-  VALUES (associatelecturer_type(
+  insert into TECHNICIAN
+  VALUES (TECHNICIAN_typ(
         pers_id,
         pers_surname,
         pers_fname,
@@ -27,14 +28,12 @@ BEGIN
         pers_address,
         pers_phone,
         pers_postcode,
-        campus_location,
-        (SELECT REF(o) FROM office o WHERE o.bld_id = bld_id),
-        off_no,
+        (SELECT REF(c) FROM campus c WHERE c.Campus_Location = Campus_Location),
+        (SELECT REF(b) FROM building b WHERE b.bld_id  = bld_id ),
+        (SELECT REF(o) FROM office o WHERE o.bld_id = bld_id and o.off_no=off_no),
         stafftype,
-        area,
-        lect_type,
-        no_honours,
-        year_join));
+        tech_tittle,
+        tech_skills));
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         result := 2;

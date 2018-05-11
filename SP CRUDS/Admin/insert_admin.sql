@@ -8,10 +8,12 @@ CREATE OR REPLACE PROCEDURE insert_admin
     pers_phone        in REAL,
     pers_postcode     in REAL,
     campus_location   in VARCHAR2,
-    bld_id            in REF building_type,
+    bld_id            in VARCHAR2,
     off_no            in VARCHAR2,
     stafftype         in VARCHAR2,
     admin_title       in VARCHAR2,
+    comp_skills       comp_skills,
+    office_skills     office_skills,
     result            out real --1 bien 2 mal
 )
 AS 
@@ -27,11 +29,13 @@ BEGIN
         pers_address,
         pers_phone,
         pers_postcode,
-        campus_location,
-        bld_id,
-        off_no,
+        (SELECT REF(c) FROM campus c WHERE c.Campus_Location = Campus_Location),
+        (SELECT REF(b) FROM building b WHERE b.bld_id  = bld_id ),
+        (SELECT REF(o) FROM office o WHERE o.bld_id = bld_id and o.off_no=off_no),
         stafftype,
-        admin_title));
+        admin_title,
+        comp_skills,
+        office_skills));
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         result := 2;

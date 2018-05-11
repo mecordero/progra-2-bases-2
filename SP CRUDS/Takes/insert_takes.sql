@@ -10,7 +10,7 @@ BEGIN
     result := 1;
   --inserta el objeto en la tabla
   insert into TAKES
-  VALUES (takes_type(
+  VALUES (takes_typ(
             (SELECT REF(s) FROM student s WHERE s.pers_id = student_id),
             (SELECT REF(sb) FROM subject sb WHERE sb.subj_id = subject_id),
             marks));

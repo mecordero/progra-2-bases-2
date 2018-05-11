@@ -1,17 +1,14 @@
-create or replace PROCEDURE insert_building
+create or replace PROCEDURE read_building
 (
     pBld_ID VARCHAR2,
-    result            out real --1 bien 2 mal
+    pname OUT BUILDING.bld_name%TYPE,
+    plocation OUT BUILDING.bld_location%TYPE
 )
 AS 
 BEGIN  
-    result := 1;
-  --inserta el objeto en la tabla
-  SELECT *
-  FROM BUILDING
-  WHERE BUILDING.Bld_ID = pBld_ID
-  EXCEPTION
-    WHEN DUP_VAL_ON_INDEX THEN
-        result := 2;
 
-END insert_building;
+  SELECT bld_name, bld_location INTO pname,plocation
+  FROM BUILDING
+  WHERE Bld_ID = pBld_ID;
+
+END read_building;

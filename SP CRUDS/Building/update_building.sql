@@ -15,7 +15,6 @@ BEGIN
   bld_name = pBld_Name,
   bld_location = pBld_Location,
   bld_level = pBls_Level 
-  FROM BUILDING
   WHERE bld_id = pBld_ID;
 
   EXCEPTION

@@ -9,7 +9,7 @@ BEGIN
     result := 1;
   --inserta el objeto en la tabla
   insert into ENROLLS_IN
-  VALUES (ENROLLS_IN_TYPE(
+  VALUES (ENROLLS_IN_TYP(
         (SELECT REF(s) FROM student s WHERE s.pers_id = student_id),
         (SELECT REF(d) FROM degree d WHERE d.Deg_ID = degree_id)));
   EXCEPTION

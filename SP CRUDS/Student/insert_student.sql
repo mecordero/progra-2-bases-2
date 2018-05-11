@@ -16,7 +16,7 @@ BEGIN
     result := 1;
   --inserta el objeto en la tabla
   insert into STUDENT
-  VALUES (student_type(
+  VALUES (student_typ(
         pers_id,
         pers_surname,
         pers_fname,
@@ -24,7 +24,7 @@ BEGIN
         pers_address,
         pers_phone,
         pers_postcode,
-        campus_location,
+         (SELECT REF(c) FROM campus c WHERE c.Campus_Location = Campus_Location),
         year));
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN

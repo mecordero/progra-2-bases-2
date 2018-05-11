@@ -1,6 +1,5 @@
 create or replace PROCEDURE insert_campus
 (
-    Campus_ID real,
     Campus_Location varchar2,
     Campus_Address varchar2,
     Campus_Phone real,
@@ -13,8 +12,7 @@ BEGIN
     result := 1;
   --inserta el objeto en la tabla
   insert into CAMPUS
-  VALUES (CAMPUS_TYPE(
-        Campus_ID,
+  VALUES (CAMPUS_TYP(
         Campus_Location,
         Campus_Address,
         Campus_Phone,
