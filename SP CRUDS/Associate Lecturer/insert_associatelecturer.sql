@@ -22,7 +22,7 @@ BEGIN
     result := 1;
   --inserta el objeto en la tabla
   insert into ASSOCIATELECTURER
-  VALUES (associatelecturer_type(
+  VALUES (associatelecturer_typ(
         pers_id,
         pers_surname,
         pers_fname,

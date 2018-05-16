@@ -12,8 +12,8 @@ CREATE OR REPLACE PROCEDURE insert_admin
     off_no            in VARCHAR2,
     stafftype         in VARCHAR2,
     admin_title       in VARCHAR2,
-    comp_skills       comp_skills,
-    office_skills     office_skills,
+    comp_skills       comp_skills_nt,
+    office_skills     office_skills_nt,
     result            out real --1 bien 2 mal
 )
 AS 
